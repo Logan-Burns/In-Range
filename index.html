@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>In Range — Type 1 Diabetes Network for Grades 7–12</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,440;9..144,560;9..144,650&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F2F5F3;
+    --paper-raised: #FFFFFF;
+    --ink: #142B3D;
+    --ink-soft: #4A5C6A;
+    --cobalt: #2955D8;
+    --cobalt-deep: #1E3FA8;
+    --cobalt-tint: #E4EBFC;
+    --sage: #3E8A5C;
+    --sage-tint: #E3F1E7;
+    --amber: #C97A1F;
+    --amber-tint: #FBEBD6;
+    --line: #D8DEDA;
+    --radius: 10px;
+    --max: 1080px;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 650;
+    line-height: 1.1;
+    margin: 0 0 0.5em;
+    color: var(--ink);
+  }
+
+  p { margin: 0 0 1em; max-width: 62ch; color: var(--ink-soft); }
+  a { color: var(--cobalt-deep); }
+
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+
+  :focus-visible {
+    outline: 2.5px solid var(--cobalt);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* ---------- Header / Tabs ---------- */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(242, 245, 243, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+    padding: 16px 0;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Fraunces', serif;
+    font-weight: 650;
+    font-size: 1.25rem;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .brand svg { flex-shrink: 0; color: var(--cobalt); }
+  .brand .tagline {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    display: block;
+  }
+
+  nav.tabs {
+    position: relative;
+    display: flex;
+    gap: 4px;
+  }
+
+  .tab-btn {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    background: none;
+    border: none;
+    padding: 10px 14px;
+    cursor: pointer;
+    border-radius: 6px;
+    position: relative;
+    transition: color 0.15s ease;
+  }
+  .tab-btn:hover { color: var(--ink); background: rgba(20,43,61,0.05); }
+  .tab-btn[aria-selected="true"] { color: var(--cobalt-deep); }
+
+  .tab-indicator {
+    position: absolute;
+    bottom: -1px;
+    height: 5px;
+    width: 24px;
+    pointer-events: none;
+    transition: transform 0.28s cubic-bezier(.4,0,.2,1);
+  }
+  .tab-indicator svg { display: block; }
+
+  /* ---------- Panels ---------- */
+  main { min-height: 60vh; }
+  .panel { padding: 56px 0 80px; }
+  .panel[hidden] { display: none; }
+
+  .eyebrow-free-heading { max-width: 40ch; }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    padding-top: 24px;
+    overflow: hidden;
+  }
+  .hero-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 640px;
+  }
+  .hero h1 {
+    font-size: clamp(2rem, 4.6vw, 3.3rem);
+    letter-spacing: -0.01em;
+  }
+  .hero p.lede {
+    font-size: 1.1rem;
+    max-width: 52ch;
+  }
+
+  .hero-graphic {
+    position: absolute;
+    right: -6%;
+    top: 6%;
+    width: 62%;
+    max-width: 640px;
+    z-index: 1;
+    opacity: 0.9;
+  }
+
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 12px 22px;
+    border-radius: var(--radius);
+    text-decoration: none;
+    cursor: pointer;
+    border: 1.5px solid transparent;
+    transition: transform 0.12s ease, background 0.15s ease;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-primary { background: var(--cobalt); color: #fff; }
+  .btn-primary:hover { background: var(--cobalt-deep); }
+  .btn-secondary { background: transparent; border-color: var(--ink); color: var(--ink); }
+  .btn-secondary:hover { background: var(--ink); color: var(--paper); }
+
+  /* ---------- Modal ---------- */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 43, 61, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 50;
+  }
+  .modal-overlay[hidden] { display: none; }
+  .modal-box {
+    position: relative;
+    background: var(--paper-raised);
+    border-radius: var(--radius);
+    padding: 36px 32px 32px;
+    max-width: 440px;
+    width: 100%;
+    box-shadow: 0 24px 60px rgba(20, 43, 61, 0.28);
+  }
+  .modal-box h3 { font-size: 1.3rem; margin-bottom: 12px; }
+  .modal-box p { margin-bottom: 22px; font-size: 0.98rem; }
+  .modal-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: none;
+    font-size: 1.4rem;
+    line-height: 1;
+    color: var(--ink-soft);
+    cursor: pointer;
+    border-radius: 6px;
+  }
+  .modal-close:hover { background: rgba(20,43,61,0.06); color: var(--ink); }
+
+  /* ---------- Pillar strip ---------- */
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    margin-top: 72px;
+    padding-top: 40px;
+    border-top: 1px solid var(--line);
+  }
+  .pillar svg { color: var(--cobalt); margin-bottom: 12px; }
+  .pillar h3 { font-size: 1.05rem; margin-bottom: 6px; }
+  .pillar p { font-size: 0.94rem; margin: 0; }
+
+  /* ---------- Section heading pattern ---------- */
+  .section-head { max-width: 56ch; margin-bottom: 40px; }
+  .section-head h2 { font-size: clamp(1.7rem, 3vw, 2.3rem); }
+
+  /* ---------- About page ---------- */
+  .about-lead { font-size: 1.08rem; max-width: 60ch; }
+
+  .pull-quote {
+    margin: 0 0 32px;
+    padding-left: 22px;
+    border-left: 3px solid var(--cobalt);
+    max-width: 58ch;
+  }
+  .pull-quote p {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 440;
+    font-size: clamp(1.15rem, 2.2vw, 1.45rem);
+    line-height: 1.5;
+    color: var(--ink);
+    margin: 0 0 10px;
+  }
+  .pull-quote cite {
+    display: block;
+    font-style: normal;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 56px;
+    margin-top: 44px;
+  }
+
+  .do-list { list-style: none; margin: 0; padding: 0; }
+  .do-list li {
+    display: flex;
+    gap: 16px;
+    padding: 18px 0;
+    border-top: 1px solid var(--line);
+  }
+  .do-list li:last-child { border-bottom: 1px solid var(--line); }
+  .do-list .num {
+    font-family: 'Fraunces', serif;
+    font-weight: 650;
+    color: var(--cobalt);
+    font-size: 1rem;
+    min-width: 1.6em;
+  }
+  .do-list p { margin: 0; font-size: 0.96rem; }
+  .do-list strong { color: var(--ink); }
+
+  .team-box {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 28px;
+  }
+  .team-box h3 { font-size: 1.1rem; margin-bottom: 18px; }
+  .team-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .team-card { display: flex; flex-direction: column; gap: 6px; }
+  .avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--cobalt-tint);
+    color: var(--cobalt-deep);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-weight: 650;
+    font-size: 1rem;
+  }
+  .team-card .role { font-weight: 600; font-size: 0.88rem; color: var(--ink); }
+  .team-card .name { font-size: 0.85rem; color: var(--ink-soft); }
+  .team-note { font-size: 0.82rem; color: var(--ink-soft); margin-top: 16px; margin-bottom: 0; }
+
+  /* ---------- Mission page ---------- */
+  .mission-statement {
+    font-family: 'Fraunces', serif;
+    font-weight: 560;
+    font-size: clamp(1.35rem, 2.7vw, 1.9rem);
+    line-height: 1.4;
+    max-width: 38ch;
+    color: var(--ink);
+    margin-bottom: 56px;
+  }
+
+  .pillar-detail-list { display: flex; flex-direction: column; }
+  .pillar-detail {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 32px;
+    padding: 28px 0;
+    border-top: 1px solid var(--line);
+  }
+  .pillar-detail:last-of-type { border-bottom: 1px solid var(--line); }
+  .pillar-detail h3 { font-size: 1.15rem; margin-bottom: 0; }
+  .pillar-detail p { margin: 0; }
+
+  .closing-line {
+    margin-top: 40px;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 440;
+    font-size: 1.15rem;
+    color: var(--ink-soft);
+    max-width: 48ch;
+  }
+
+  /* ---------- Events page ---------- */
+  .events-list { display: flex; flex-direction: column; gap: 0; }
+  .event-card {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 28px;
+    padding: 26px 0;
+    border-top: 1px solid var(--line);
+    transition: background 0.15s ease;
+  }
+  .events-list .event-card:last-child { border-bottom: 1px solid var(--line); }
+  .event-card:hover { background: rgba(41,85,216,0.03); }
+
+  .event-date {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    padding-top: 3px;
+  }
+
+  .event-body h3 { font-size: 1.12rem; margin-bottom: 6px; }
+  .event-body p { margin: 0 0 10px; font-size: 0.96rem; }
+
+  .tag {
+    display: inline-block;
+    font-size: 0.76rem;
+    font-weight: 600;
+    padding: 4px 11px;
+    border-radius: 999px;
+    margin-bottom: 8px;
+  }
+  .tag-meetup { background: var(--cobalt-tint); color: var(--cobalt-deep); }
+  .tag-awareness { background: var(--sage-tint); color: var(--sage); }
+  .tag-speaker { background: var(--amber-tint); color: var(--amber); }
+  .tag-fundraiser { background: var(--cobalt-tint); color: var(--cobalt-deep); }
+  .tag-social { background: var(--sage-tint); color: var(--sage); }
+
+  .events-footer-note {
+    margin-top: 36px;
+    padding: 22px 24px;
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .events-footer-note p { margin: 0; font-size: 0.94rem; }
+  .events-footer-note .note-text { display: flex; flex-direction: column; gap: 4px; }
+
+  /* ---------- Footer ---------- */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 48px 0 28px;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr;
+    gap: 32px;
+    margin-bottom: 32px;
+  }
+  footer h4 {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 0 0 12px;
+  }
+  footer p, footer a {
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    text-decoration: none;
+  }
+  footer a:hover { color: var(--cobalt-deep); }
+  footer .links { display: flex; flex-direction: column; gap: 8px; }
+  .disclaimer {
+    font-size: 0.82rem;
+    color: var(--ink-soft);
+    max-width: 70ch;
+    border-top: 1px solid var(--line);
+    padding-top: 20px;
+  }
+  .fine-print { font-size: 0.78rem; color: var(--ink-soft); margin-top: 16px; margin-bottom: 0; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 760px) {
+    .header-inner { flex-direction: column; align-items: flex-start; }
+    nav.tabs { width: 100%; overflow-x: auto; }
+    .hero-graphic { display: none; }
+    .pillars { grid-template-columns: 1fr; gap: 32px; }
+    .about-grid { grid-template-columns: 1fr; gap: 36px; }
+    .pillar-detail { grid-template-columns: 1fr; gap: 8px; }
+    .event-card { grid-template-columns: 1fr; gap: 6px; }
+    .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+    .team-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; scroll-behavior: auto !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="#" data-tab-link="home">
+      <svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true">
+        <circle cx="13" cy="13" r="9.5" stroke="currentColor" stroke-width="2.6"/>
+      </svg>
+      <span>In Range<span class="tagline">Type 1 Diabetes Network, Grades 7–12</span></span>
+    </a>
+    <nav class="tabs" role="tablist" aria-label="Site sections">
+      <button class="tab-btn" role="tab" id="tab-home" aria-controls="panel-home" aria-selected="true" data-tab="home">Home</button>
+      <button class="tab-btn" role="tab" id="tab-about" aria-controls="panel-about" aria-selected="false" data-tab="about">About us</button>
+      <button class="tab-btn" role="tab" id="tab-mission" aria-controls="panel-mission" aria-selected="false" data-tab="mission">Mission</button>
+      <button class="tab-btn" role="tab" id="tab-events" aria-controls="panel-events" aria-selected="false" data-tab="events">Events</button>
+      <button class="tab-btn" role="tab" id="tab-guides" aria-controls="panel-guides" aria-selected="false" data-tab="guides">Student Guides</button>
+      <span class="tab-indicator" id="tab-indicator">
+        <svg width="24" height="5" viewBox="0 0 24 5"><path d="M0 2.5 Q 6 0, 12 2.5 T 24 2.5" stroke="#2955D8" stroke-width="2.4" fill="none" stroke-linecap="round"/></svg>
+      </span>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- ===== HOME ===== -->
+  <section class="panel" id="panel-home" role="tabpanel" aria-labelledby="tab-home" tabindex="0">
+    <div class="wrap hero">
+      <svg class="hero-graphic" viewBox="0 0 520 320" fill="none" aria-hidden="true">
+        <path d="M0 190 C 60 190, 60 130, 120 130 C 180 130, 180 190, 240 190 C 300 190, 300 130, 360 130 C 420 130, 420 190, 520 190 L 520 320 L 0 320 Z" fill="#E3F1E7" opacity="0.7"/>
+        <path d="M0 160 C 60 160, 60 220, 120 220 C 180 220, 180 160, 240 160 C 300 160, 300 220, 360 220 C 420 220, 420 160, 520 160" stroke="#D8DEDA" stroke-width="1.5" fill="none"/>
+        <path d="M0 60 C 50 60, 70 20, 110 60 C 150 100, 170 40, 210 70 C 250 100, 270 30, 310 55 C 350 80, 380 15, 430 50 C 460 70, 490 45, 520 55" stroke="#2955D8" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <circle cx="110" cy="60" r="5" fill="#2955D8"/>
+        <circle cx="210" cy="70" r="5" fill="#C97A1F"/>
+        <circle cx="310" cy="55" r="5" fill="#3E8A5C"/>
+        <circle cx="430" cy="50" r="5" fill="#2955D8"/>
+      </svg>
+      <div class="hero-inner">
+        <h1>Being a student with type 1 is challenging. We are here to help.</h1>
+        <p class="lede">In Range is a student-led community for middle and high schoolers managing type 1 diabetes.</p>
+        <div class="cta-row">
+          <button class="btn btn-primary" type="button" data-modal="join">Join the network</button>
+          <button class="btn btn-secondary" data-tab-link="events" type="button">See upcoming events</button>
+        </div>
+      </div>
+
+      <div class="pillars">
+        <div class="pillar">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true"><path d="M8 12a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm10 0a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7ZM2 21c0-3.3 2.7-6 6-6s6 2.7 6 6M14 21c0-2.6 1.8-4.8 4.2-5.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <h3>Peer support</h3>
+          <p>People who have had similar T1D experiences at school — for newly diagnosed and experienced diabetics.</p>
+        </div>
+        <div class="pillar">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true"><path d="M13 4 3 9l10 5 10-5-10-5ZM3 9v8l10 5 10-5V9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <h3>T1D student-life know-how</h3>
+          <p>Test taking, managing activity & sports, alarms in quiet environments and more.</p>
+        </div>
+        <div class="pillar">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true"><path d="M3 12v3a1 1 0 0 0 1 1h2l6 4V7l-6 4H4a1 1 0 0 0-1 1Zm14-4a5 5 0 0 1 0 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <h3>School advocacy</h3>
+          <p>Supporting and communicating with nurses, athletic trainers, and teachers to create a better experience for the student and the school professional.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ABOUT ===== -->
+  <section class="panel" id="panel-about" role="tabpanel" aria-labelledby="tab-about" tabindex="0" hidden>
+    <div class="wrap">
+      <div class="section-head">
+        <h2>About us</h2>
+      </div>
+      <div class="about-grid">
+        <div>
+          <blockquote class="pull-quote">
+            <p>"Entering and navigating high school I saw that there was great opportunity to benefit Type 1 Diabetic students like myself by creating a community that did not exist at the time."</p>
+            <cite>— Logan Burns</cite>
+          </blockquote>
+          <p class="about-lead">In Range was started by Logan Burns in 2025 when he was a freshman at the Dalton School. Through the continued support of Dalton Students, Hazel and Laila, and the Dalton School nurses, Lynn and Mary, this organization was able to expand to what it is today, but we continue to strive to expand further!</p>
+        </div>
+
+        <div class="team-box">
+          <h3>Run by students</h3>
+          <div class="team-grid">
+            <div class="team-card">
+              <div class="avatar">P</div>
+              <div class="role">President</div>
+              <div class="name">Logan Burns</div>
+            </div>
+            <div class="team-card">
+              <div class="avatar">E</div>
+              <div class="role">Events Lead</div>
+              <div class="name">Coming soon</div>
+            </div>
+            <div class="team-card">
+              <div class="avatar">M</div>
+              <div class="role">Mentorship Lead</div>
+              <div class="name">Coming soon</div>
+            </div>
+            <div class="team-card">
+              <div class="avatar">C</div>
+              <div class="role">Communications</div>
+              <div class="name">Coming soon</div>
+            </div>
+            <div class="team-card">
+              <div class="avatar">A</div>
+              <div class="role">Faculty Advisor</div>
+              <div class="name">Coming soon</div>
+            </div>
+          </div>
+          <p class="team-note">Interested in helping run In Range, or serving as our faculty advisor? Reach out — we're always looking for more hands.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MISSION ===== -->
+  <section class="panel" id="panel-mission" role="tabpanel" aria-labelledby="tab-mission" tabindex="0" hidden>
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Our mission</h2>
+      </div>
+      <p class="mission-statement">To create a network of T1D students throughout NYC where students can create a community and support each other in managing T1D at school and beyond.</p>
+
+      <div class="pillar-detail-list">
+        <div class="pillar-detail">
+          <h3>Community support</h3>
+          <p>We want to use our unique perspective as students with T1D to support our school nurses and athletic trainers in order to create a more seamless experience for both ourselves and school professionals. Especially given constantly changing landscape of T1D management, we feel that organized communication between students and school professionals will greatly help the student and the school.</p>
+        </div>
+        <div class="pillar-detail">
+          <h3>Peer support</h3>
+          <p>Type 1 is a condition you manage alone, most hours of most days. We exist so it doesn't have to feel that way — through meetups and events, this community helps to support newly and already diagnosed T1D students no matter their T1D needs.</p>
+        </div>
+        <div class="pillar-detail">
+          <h3>Student-life know-how</h3>
+          <p>There are many experiences in the school environment that you are not told how to deal with by your doctor, such as what to do about your blood sugar during an important test. Through our shared experience we have built <a href="#" data-tab-link="guides">guides</a> to help.</p>
+        </div>
+        <div class="pillar-detail">
+          <h3>Advocacy</h3>
+          <p>As a student-led community we spread awareness about T1D through our events and also fundraise with activities such as Breakthrough T1D Walks.</p>
+        </div>
+      </div>
+
+      <p class="closing-line">No perfect numbers required. No judgment about the hard days. Just people figuring it out together.</p>
+    </div>
+  </section>
+
+  <!-- ===== EVENTS ===== -->
+  <section class="panel" id="panel-events" role="tabpanel" aria-labelledby="tab-events" tabindex="0" hidden>
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Events</h2>
+        <p>Low-key meetups, awareness pushes, and a few bigger events throughout the year. Come to one, come to all.</p>
+      </div>
+
+      <div class="events-list">
+        <div class="event-card">
+          <div class="event-date">Oct 14, 2026</div>
+          <div class="event-body">
+            <span class="tag tag-fundraiser">Fundraiser</span>
+            <h3>Breakthrough T1D Walk Team</h3>
+            <p>New York, NY — we walk together and fundraise as a team. No experience or fast pace required. <a href="http://www2.breakthrought1d.org/goto/StridesAgainstDiabetes" target="_blank" rel="noopener noreferrer">Sign up here</a>.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ARCHIVED EVENT IDEAS — removed from the live list on request, kept here for future reuse.
+      To bring one back, move it into the .events-list div above.
+
+      <div class="event-card">
+        <div class="event-date">First Thursday<br>monthly</div>
+        <div class="event-body">
+          <span class="tag tag-meetup">Meetup</span>
+          <h3>Pod & Pump Social</h3>
+          <p>Room 214, right after school — bring a snack, compare CGM data, or just show up.</p>
+        </div>
+      </div>
+
+      <div class="event-card">
+        <div class="event-date">November</div>
+        <div class="event-body">
+          <span class="tag tag-awareness">Awareness</span>
+          <h3>World Diabetes Day Tabling</h3>
+          <p>Front lobby — we table with the blue circle, real talk, and giveaways to mark World Diabetes Day.</p>
+        </div>
+      </div>
+
+      <div class="event-card">
+        <div class="event-date">TBD</div>
+        <div class="event-body">
+          <span class="tag tag-speaker">Speaker</span>
+          <h3>Life on a Loop: Guest Speaker Series</h3>
+          <p>A student or alum talks through managing type 1 through classes, sports, and everything else.</p>
+        </div>
+      </div>
+
+      <div class="event-card">
+        <div class="event-date">Finals week</div>
+        <div class="event-body">
+          <span class="tag tag-social">Social</span>
+          <h3>Low-Sugar Care Package Drive</h3>
+          <p>School-wide — glucose tabs, snacks, and notes for anyone who needs a boost before finals.</p>
+        </div>
+      </div>
+      -->
+
+      <div class="events-footer-note">
+        <p>Want a reminder before each event?</p>
+        <a class="btn btn-primary" href="mailto:c29lb@dalton.org">Get on the list</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STUDENT GUIDES ===== -->
+  <section class="panel" id="panel-guides" role="tabpanel" aria-labelledby="tab-guides" tabindex="0" hidden>
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Student guides</h2>
+        <p>Practical guides written by students, for students — the parts of managing type 1 at school that a doctor's office doesn't usually cover.</p>
+      </div>
+
+      <ul class="do-list">
+        <li>
+          <span class="num">01</span>
+          <div>
+            <h3>Test Taking</h3>
+            <p>During test taking you cannot have your phone out, inhibiting your ability to check blood sugar. A lot of the time, especially for smaller assessments, there is no need to check blood sugar, but occasionally an alarm may go off, or you may feel your blood sugar being low or high.</p>
+            <p>My solution to being able to check my blood sugar is to communicate with my teacher beforehand so they know of potential issues. It is essential that your teacher knows that you may need to check your blood sugar on your phone during the test and that you may need to leave or pause the test for blood sugar issues. Some solutions could be checking your blood sugar under the supervision of the teacher or checking your blood sugar on a device without cellular connection such as an insulin delivery device. Just make sure that your teacher is aware of how you plan to check your blood sugar.</p>
+            <p>Although it may seem insignificant, high or low blood sugar can affect test-taking performance, so don't try to ignore your blood sugar. If you feel that you can manage a minor low or high, go for it, but don't push yourself through your symptoms if unnecessary. The test can almost always be retaken, especially if you communicate with your teacher beforehand of the possibility of a medical issue.</p>
+          </div>
+        </li>
+        <li>
+          <span class="num">02</span>
+          <div>
+            <h3>Managing Diabetes Around Sports</h3>
+            <p>Managing diabetes while playing sports is very difficult for many different reasons. Devices can fall off or be out of range, activity can affect blood sugar significantly, and you cannot check your blood sugar during the activity.</p>
+            <p>All of these challenges can be overcome in different ways, but one solution that applies to all of these difficulties is listening to your body. Although it takes time to hone your skills to understand what it feels like to be low, high or anywhere in between, confidence in your own ability to understand how you are feeling blood sugar rise is paramount to manage diabetes in sports.</p>
+            <p>If your body ever feels high, low, or just off during a sports activity (or any activity for that matter) you should always find a way to step out of the game/practice, check your blood sugar, and treat it accordingly. Although it can feel extremely disappointing to take yourself out of a sports game for example, trying to play through whatever is happening, especially if it's low blood sugar, will only make it worse and greatly hinder your ability on the field.</p>
+          </div>
+        </li>
+        <li>
+          <span class="num">03</span>
+          <div>
+            <h3>Alarms in a Quiet Environment</h3>
+            <p>What to do when an alarm goes off mid-test or mid-class.</p>
+          </div>
+        </li>
+        <li>
+          <span class="num">04</span>
+          <div>
+            <p>More coming soon!</p>
+          </div>
+        </li>
+      </ul>
+
+      <div class="events-footer-note">
+        <div class="note-text">
+          <p>Missing a guide you need?</p>
+          <p>Want to contribute by writing a guide or suggesting a topic?</p>
+        </div>
+        <a class="btn btn-primary" href="mailto:c29lb@dalton.org">Let us know</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h4>In Range</h4>
+        <p>A student-led community for middle and high schoolers managing type 1 diabetes at school.</p>
+      </div>
+      <div>
+        <h4>Get in touch</h4>
+        <div class="links">
+          <a href="mailto:c29lb@dalton.org">c29lb@dalton.org</a>
+        </div>
+      </div>
+      <div>
+        <h4>Meetings</h4>
+        <p>About once a month — see Events for the next one.</p>
+      </div>
+    </div>
+    <p class="disclaimer">In Range is a peer community, not a medical provider. Nothing here is medical advice — always follow the guidance of your own care team and your parents or guardians.</p>
+    <p class="fine-print">© 2026 In Range · Type 1 Diabetes Network for Grades 7–12</p>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="join-modal" hidden>
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="join-modal-title">
+    <button class="modal-close" id="join-modal-close" aria-label="Close">&times;</button>
+    <h3 id="join-modal-title">Join the network</h3>
+    <p>If you are interested in the network or would like to join, please email <a href="mailto:c29lb@dalton.org">c29lb@dalton.org</a> with your name, grade/role, and school.</p>
+    <a class="btn btn-primary" href="mailto:c29lb@dalton.org">Email us</a>
+  </div>
+</div>
+
+<script>
+  (function() {
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab-btn'));
+    var panels = {
+      home: document.getElementById('panel-home'),
+      about: document.getElementById('panel-about'),
+      mission: document.getElementById('panel-mission'),
+      events: document.getElementById('panel-events'),
+      guides: document.getElementById('panel-guides')
+    };
+    var indicator = document.getElementById('tab-indicator');
+
+    function moveIndicator(btn) {
+      var navRect = btn.parentElement.getBoundingClientRect();
+      var btnRect = btn.getBoundingClientRect();
+      var offset = (btnRect.width - 24) / 2;
+      indicator.style.transform = 'translateX(' + (btnRect.left - navRect.left + offset) + 'px)';
+    }
+
+    function activate(name, focusPanel) {
+      tabs.forEach(function(btn) {
+        var isActive = btn.getAttribute('data-tab') === name;
+        btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        if (isActive) moveIndicator(btn);
+      });
+      Object.keys(panels).forEach(function(key) {
+        if (key === name) {
+          panels[key].removeAttribute('hidden');
+        } else {
+          panels[key].setAttribute('hidden', '');
+        }
+      });
+      if (focusPanel) panels[name].focus({ preventScroll: false });
+    }
+
+    tabs.forEach(function(btn, i) {
+      btn.addEventListener('click', function() { activate(btn.getAttribute('data-tab'), false); });
+      btn.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+          e.preventDefault();
+          var next = e.key === 'ArrowRight' ? (i + 1) % tabs.length : (i - 1 + tabs.length) % tabs.length;
+          tabs[next].focus();
+          activate(tabs[next].getAttribute('data-tab'), false);
+        }
+      });
+    });
+
+    Array.prototype.slice.call(document.querySelectorAll('[data-tab-link]')).forEach(function(el) {
+      el.addEventListener('click', function(e) {
+        e.preventDefault();
+        activate(el.getAttribute('data-tab-link'), true);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+
+    window.addEventListener('resize', function() {
+      var current = tabs.find(function(b) { return b.getAttribute('aria-selected') === 'true'; });
+      if (current) moveIndicator(current);
+    });
+
+    var joinModal = document.getElementById('join-modal');
+    var joinModalClose = document.getElementById('join-modal-close');
+
+    function openJoinModal() { joinModal.removeAttribute('hidden'); }
+    function closeJoinModal() { joinModal.setAttribute('hidden', ''); }
+
+    Array.prototype.slice.call(document.querySelectorAll('[data-modal="join"]')).forEach(function(btn) {
+      btn.addEventListener('click', openJoinModal);
+    });
+    joinModalClose.addEventListener('click', closeJoinModal);
+    joinModal.addEventListener('click', function(e) {
+      if (e.target === joinModal) closeJoinModal();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeJoinModal();
+    });
+
+    // init
+    moveIndicator(tabs[0]);
+  })();
+</script>
+
+</body>
+</html>
